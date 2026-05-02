@@ -1,13 +1,24 @@
-# AeroBeat Avatar Template
+# AeroBeat Internal Avatar Template
 
-UGC avatars (characters) for AeroBeat.
+This is the official template for creating **internal avatar** repositories within the current AeroBeat v1 architecture.
+
+It should be read against the locked product direction from `aerobeat-docs`:
+
+- **Primary release target:** PC community first
+- **Official v1 gameplay features:** Boxing and Flow
+- **Official v1 gameplay input:** camera only
+- **UI input stance:** mouse and touch remain valid for UI navigation, without implying equal-status gameplay input support
+- **Asset-lane ownership:** shared internal avatar contracts belong to the asset lane through `aerobeat-asset-core`
+- **Downscoped customization truth:** this template is for internal/system avatar work, not for reviving the older UGC or package-local gameplay avatar swap story
 
 ## 📋 Repository Details
 
-*   **Type:** Avatars (Art)
-*   **License:** **CC BY-NC 4.0**
-*   **Dependencies:**
-    *   `aerobeat-asset-core` (Canonical shared asset/resource contract)
+- **Type:** Internal avatar template
+- **License:** **CC BY-NC 4.0** (Attribution-NonCommercial)
+- **Dependency contract:**
+  - `aerobeat-asset-core` — required shared asset/resource contract for the asset lane
+  - `aerobeat-feature-*` — optional consumer-selected runtime dependency when validating a concrete avatar against a specific feature such as Boxing or Flow
+  - additional adjacent lane/core repos only when a concrete internal avatar repo truly consumes them
 
 ## GodotEnv development flow
 
@@ -30,7 +41,7 @@ cd .testbed
 godotenv addons install
 ```
 
-That restores this repo's current dev/test manifest into `.testbed/addons/`. Canonically, this template belongs to the Asset lane and should describe its shared contract in terms of `aerobeat-asset-core`.
+That restores this repo's current dev/test manifest into `.testbed/addons/`. Canonically, this template should keep the baseline manifest narrow: `aerobeat-asset-core` plus test-only tooling.
 
 ### Open the workbench
 
@@ -40,7 +51,7 @@ From the repo root:
 godot --editor --path .testbed
 ```
 
-Use this `.testbed/` project as the canonical direct-development and import-validation surface for avatar work.
+Use this `.testbed/` project as the canonical direct-development and import-validation surface for internal avatar work.
 
 ### Import smoke check
 
@@ -63,15 +74,21 @@ godot --headless --path .testbed --script addons/gut/gut_cmdln.gd \
 
 ## 📂 Structure
 
-*   `assets/avatars/` - Character scenes, meshes, materials, and avatar resources.
+- `assets/avatars/` - Internal avatar scenes, meshes, skeleton maps, and related resources for AeroBeat product surfaces.
+- `assets/portraits/` - Optional avatar portraits or profile-card imagery when a concrete repo needs them.
+- `assets/rigs/` - Shared rigging helpers, retargeting resources, or skeleton metadata when the avatar package needs them.
 
 ## Validation notes
 
 - `.testbed/addons.jsonc` is the committed dev/test dependency contract.
-- The current manifest still pins the transition-era `aerobeat-core` package key to `v0.1.0` alongside GUT `main`. Canonical lane ownership is `aerobeat-asset-core`.
-- Repo-local unit tests live under `.testbed/tests/`.
-- This template is root-packaged (`subfolder: "/"`) and does not use a `.testbed/src` bridge; avatar assets stay under the repo root package boundary.
+- The canonical template manifest for this repo is `aerobeat-asset-core` + `gut`.
+- Do **not** restore a universal `aerobeat-core` baseline here. Add a concrete `aerobeat-feature-*` repo only when a real downstream avatar package needs feature-specific validation.
+- Repo-local unit tests live under `.testbed/tests/` and currently validate repo metadata plus the manifest contract.
+- This template is root-packaged (`subfolder: "/"`) and does not use a `.testbed/src` bridge; add real content directly under the repo root package boundary.
+- Coaching/persona data belongs in coaching/content lanes, not this generic avatar template.
 
 ## Notes
 
-- Use the hidden workbench to restore shared contracts and import/test avatar resources before consuming them elsewhere.
+- These avatars are intended for internal AeroBeat assemblies and controlled product presentation surfaces.
+- Boxing and Flow are the retained gameplay-facing examples for current v1 truth; non-retained feature examples should not be taught as baseline template scope.
+- Keep feature-specific runtime dependencies explicit and selective rather than pretending one universal feature baseline fits every avatar repo.
